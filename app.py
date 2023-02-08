@@ -4,6 +4,9 @@ import plotly
 
 import pandas as pd
 
+st.set_page_config(layout="wide")
+st.title("Syria Agriculture Monitoring")
+
 crop_data = pd.read_parquet("data/syria_crop_data_cleaned.parquet")
 
 crop_production_df = crop_data.loc[crop_data["Element"] == "Production"]
@@ -41,16 +44,22 @@ fig = px.line(
     height=600,
 )
 
-st.set_page_config(layout="wide")
-st.plotly_chart(fig, use_container_width=True, sharing="streamlit")
-
 ndvi_mapbox_choropleth_fig = plotly.io.read_json(
     "figures/ndvi-mapbox-choropleth-map.json"
 )
 
-st.plotly_chart(
-    ndvi_mapbox_choropleth_fig,
-    use_container_width=True,
-    sharing="streamlit",
-    config={"scrollZoom": False, "displayModeBar": False},
-)
+with st.container():
+    st.write("## Yearl crop production")
+
+    st.plotly_chart(fig, use_container_width=True, sharing="streamlit")
+
+
+with st.container():
+    st.write("# NDVI values over the last 20 years")
+
+    st.plotly_chart(
+        ndvi_mapbox_choropleth_fig,
+        use_container_width=True,
+        sharing="streamlit",
+        config={"scrollZoom": False, "displayModeBar": False},
+    )
