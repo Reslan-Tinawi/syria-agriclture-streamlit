@@ -6,6 +6,7 @@ import pandas as pd
 
 st.set_page_config(layout="wide")
 st.title("Syria Agriculture Monitoring")
+st.markdown("***")
 
 crop_data = pd.read_parquet("data/syria_crop_data_cleaned.parquet")
 
@@ -49,13 +50,20 @@ ndvi_mapbox_choropleth_fig = plotly.io.read_json(
 )
 
 with st.container():
-    st.write("## Yearl crop production")
+    st.write("## Yearly crop production for top 5 regional crops")
 
     st.plotly_chart(fig, use_container_width=True, sharing="streamlit")
 
+st.markdown("***")
 
 with st.container():
     st.write("# NDVI values over the last 20 years")
+
+    st.write(
+        "[NDVI](https://en.wikipedia.org/wiki/Normalized_difference_vegetation_index) values reflects greenness of a region. Lower values indicates more drought conditions."
+    )
+
+    st.write("Use the slider below to switch between years")
 
     st.plotly_chart(
         ndvi_mapbox_choropleth_fig,
